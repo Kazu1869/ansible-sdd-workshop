@@ -1,0 +1,30 @@
+argument_specs:
+  main:
+    short_description: Manage an isolated lab-owned MOTD banner
+    description:
+      - Writes or removes a local MOTD file under the workspace lab-output directory.
+      - The role refuses any target outside that directory.
+    options:
+      rhel_motd_text:
+        type: str
+        required: true
+        description: Text displayed after the environment header; must not be blank.
+      rhel_motd_environment:
+        type: str
+        choices:
+          - dev
+          - test
+          - prod
+        default: dev
+        description: Environment displayed in the MOTD header.
+      rhel_motd_enabled:
+        type: bool
+        default: true
+        description: Whether the managed banner exists.
+      rhel_motd_mode:
+        type: str
+        default: '0644'
+        description: File mode used when writing the banner.
+      rhel_motd_path:
+        type: path
+        description: Absolute path inside the workspace lab-output directory.

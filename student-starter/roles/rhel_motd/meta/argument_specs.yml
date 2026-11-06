@@ -1,0 +1,6 @@
+# TODO: Phase 2. Create the main entry-point argument specification.
+# See lab/02-contract.md and specs/SPEC-001-rhel-motd.md.
+argument_specs:
+  main:
+    short_description: TODO - Describe this role
+    options: {}

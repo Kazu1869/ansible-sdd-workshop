@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.ansible/
+lab-output/
+*.retry
+.DS_Store

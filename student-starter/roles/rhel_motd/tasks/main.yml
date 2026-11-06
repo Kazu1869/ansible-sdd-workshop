@@ -1,0 +1,4 @@
+# TODO: Phase 3. Implement validation BEFORE filesystem changes.
+# Begin with an ansible.builtin.assert for non-blank text.
+# Then validate lab-output confinement and mode; finally use file/copy.
+[]

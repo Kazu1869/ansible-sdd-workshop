@@ -1,0 +1,8 @@
+- name: Negative case - blank_text
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  roles:
+    - role: rhel_motd
+      vars:
+        rhel_motd_text: "   "
