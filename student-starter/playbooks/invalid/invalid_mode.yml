@@ -1,9 +1,0 @@
-- name: Negative case - invalid_mode
-  hosts: localhost
-  gather_facts: false
-  connection: local
-  roles:
-    - role: rhel_motd
-      vars:
-        rhel_motd_text: Authorized access only.
-        rhel_motd_mode: "9999"

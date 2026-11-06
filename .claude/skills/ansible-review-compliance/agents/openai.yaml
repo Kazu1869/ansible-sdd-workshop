@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compliance Reviewer"
+  short_description: "Run the compliance-reviewer SDD stage"
+  default_prompt: "Use $ansible-review-compliance for the selected Ansible specification."

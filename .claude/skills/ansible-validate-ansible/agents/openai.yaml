@@ -1,0 +1,4 @@
+interface:
+  display_name: "Validation Runner"
+  short_description: "Run the validation-runner SDD stage"
+  default_prompt: "Use $ansible-validate-ansible for the selected Ansible specification."

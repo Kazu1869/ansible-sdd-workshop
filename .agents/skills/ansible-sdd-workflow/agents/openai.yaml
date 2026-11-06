@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ansible SDD Workflow"
+  short_description: "Coordinate spec, build, test and independent review"
+  default_prompt: "Use $ansible-sdd-workflow to develop the requested Ansible feature."

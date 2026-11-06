@@ -1,0 +1,9 @@
+- name: Demonstrate the local SDD role
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+  roles:
+    - role: managed_file
+      vars:
+        managed_file_content: "Hello from SDD.\n"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Playbook Writer"
+  short_description: "Run the playbook-writer SDD stage"
+  default_prompt: "Use $ansible-write-playbook for the selected Ansible specification."

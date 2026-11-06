@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Reviewer"
+  short_description: "Run the spec-reviewer SDD stage"
+  default_prompt: "Use $ansible-review-spec for the selected Ansible specification."

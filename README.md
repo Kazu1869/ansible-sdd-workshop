@@ -1,57 +1,57 @@
-# Ansible SDD Workshop — RHEL MOTD
+# Ansible SDD development template
 
-An instructor-led, **45-minute** hands-on exercise (with a **90-minute** extension) in specification-driven Ansible development. The target is a harmless `lab-output/motd` under this repository, never `/etc/motd`. Runs on `localhost` without `become`, AAP controller, containers, or credentials.
+A reusable starting point for specification-driven Ansible projects, with seven dedicated agent roles, eight skills, local acceptance tests and CI. This `sdd-template` branch is separate from the completed instructor workshop on `main`.
 
-## Pick the right starting point
-
-- **Participant:** use [`student-starter/`](student-starter/README.md). It deliberately has an unfinished role. Keep the instructor solution out of the learners' working directory; **do not distribute this complete repository to participants**.
-- **Instructor:** the complete solution with CI validation is in `roles/`, `playbooks/`, and `tests/`; read [`instructor/README.md`](instructor/README.md).
-- **Specification:** [`specs/SPEC-001-rhel-motd.md`](specs/SPEC-001-rhel-motd.md) is the behavioral contract; `roles/rhel_motd/meta/argument_specs.yml` is the role interface contract.
-
-## Prerequisites and setup
-
-Use a Linux terminal in the [Ansible Dev Tools Showroom](https://rhpds.github.io/ansible-dev-tools-showroom/modules/index.html) with Python 3.11+, `ansible-playbook`, `ansible-doc`, `ansible-lint`, `yamllint`, and the Ansible VS Code extension. Verify first:
+## Get your own working copy
 
 ```sh
-ansible --version
-ansible-lint --version
-yamllint --version
-```
-
-If the tools are not installed and package installation is permitted, provision a Python virtualenv:
-
-```sh
+git clone --branch sdd-template --single-branch --depth 1 https://github.com/Kazu1869/ansible-sdd-workshop.git my-ansible-project
+cd my-ansible-project
+git remote rename origin upstream
+git switch -c feature/my-first-spec
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements-dev.txt
+bash scripts/check.sh
 ```
 
-The Showroom's provided environment may already contain these tools. No `ansible-galaxy` collections are needed.
+Use Python 3.12+ on Linux/WSL. The shallow single-branch clone checks out only this template. The upstream repository is public and its instructor workshop remains accessible separately. Add your own repository as `origin` when ready; do not push student work to the workshop upstream. No AI account is needed to run the deterministic checks.
 
-## Run complete instructor solution
+## What is included
+
+| Agent | Responsibility |
+| --- | --- |
+| spec-author | Draft requirements, interface and acceptance criteria |
+| spec-reviewer | Check ambiguity, completeness and readiness |
+| playbook-writer | Implement roles/playbooks within the accepted scope |
+| test-writer | Write requirement-driven acceptance tests |
+| validation-runner | Execute approved local checks and report exit codes |
+| code-reviewer | Independently review correctness and test gaps |
+| compliance-reviewer | Assess supplied control IDs and safety boundaries |
+
+The main conversation coordinates the stages using the `ansible-sdd-workflow` skill. Each role also has its own skill. Native definitions live in [.codex/agents/](.codex/agents/) and [.claude/agents/](.claude/agents/); canonical instructions live in [agents/](agents/). See [tool setup and invocation](docs/TOOLING.md).
+
+## Use it
+
+1. Read [AGENTS.md](AGENTS.md) and [the workflow](docs/WORKFLOW.md).
+2. Copy [the spec template](specs/SPEC-TEMPLATE.md) to a new numbered feature spec and describe your goal and constraints.
+3. In Codex, invoke `$ansible-sdd-workflow`; in Claude Code, invoke `/ansible-sdd-workflow`. Provide the feature goal and spec path. Use dedicated agents when supported; fallback passes are labeled as single-agent work.
+4. Review the spec, implementation, tests and control evidence. Run `bash scripts/check.sh` after changes. Agent recommendations do not replace human acceptance or deployment authorization.
+
+## Runnable reference
+
+The bundled [SPEC-001](specs/SPEC-001-managed-file.md) manages `lab-output/status.txt` on localhost without become. It demonstrates a required role input, idempotent writes, disabled-state removal, validation before changes and check mode.
 
 ```sh
-ansible-playbook -i localhost, -c local playbooks/valid.yml
-ansible-doc -t role -l -r roles
-ansible-doc -t role rhel_motd -r roles
-bash tests/test_contract.sh
-bash tests/test_idempotency.sh
-yamllint -c .yamllint .
-ansible-lint
+ansible-playbook -i localhost, -c local playbooks/site.yml
+cat lab-output/status.txt
+ansible-playbook -i localhost, -c local playbooks/site.yml -e '{"managed_file_enabled": false}'
 ```
 
-The playbook writes `lab-output/motd` inside the workspace. Inspect it using `cat lab-output/motd`. Tests use isolated temporary directories and do not modify that example file.
+Tests use isolated temporary project copies; they do not replace your example output. Adapt the reference role/playbook/tests to your approved project. Extend [policies/automation.yml](policies/automation.yml) for your environment before authorizing other targets or privileges. The included LOCAL-* controls are an example baseline, not CIS/STIG certification.
 
-## Publishing
+## Validation
 
-The destination is [`Kazu1869/ansible-sdd-workshop`](https://github.com/Kazu1869/ansible-sdd-workshop), confirmed by the repository owner. This repository is public, including the instructor solution and recovery snippets. Distribute only the contents of `student-starter/` to learners at the start of class; the public solution is discoverable, so this setup is appropriate for guided practice, not a closed-answer assessment. See `instructor/PUBLISHING.md` for additional distribution guidance; its original destination-confirmation note is historical.
+`bash scripts/check.sh` checks agent/skill synchronization and metadata, YAML, Ansible syntax/docs/lint, and acceptance tests for required/invalid input, unchanged targets on rejection, content/mode, enabled/disabled idempotency, check mode and symlink boundaries. CI runs the same command on pushes and pull requests; it makes no paid AI calls and uses no deployment credentials.
 
-## Safety / implementation notes
-
-- No root, SSH, network targets, credentials, or system files.
-- `rhel_motd_text` is mandatory; do not create a default for it. `rhel_motd_path` has a safe workspace-derived default and is restricted to a path inside `lab-output/` by a separate business rule. Existing targets outside this directory are never written.
-- A YAML/JSON boolean `rhel_motd_enabled: false` (CLI: `-e '{"rhel_motd_enabled": false}'`) removes the managed file; the interface is validated even when disabled.
-- For portability, `ansible.builtin.copy` uses inline `content` and `mode` (string `"0644"`) rather than requiring a template file.
-- This lab uses native role argument validation. The underlying Ansible version, not VS Code completion, is the authoritative enforcer.
-
-Documentation: [Ansible roles argument specifications](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#role-argument-validation), [ansible-lint](https://docs.ansible.com/projects/lint/), [Red Hat automation good practices](https://redhat-cop.github.io/automation-good-practices/).
+See [validation evidence and limits](docs/VALIDATION.md). The template does not install personal skills, deploy AAP, or launch agents without an AI client and user task.

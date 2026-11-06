@@ -1,8 +1,5 @@
 profile: basic
 exclude_paths:
   - .venv/
+  - .ansible/
   - lab-output/
-  - student-starter/
-  - recovery/
-  - playbooks/invalid/
-  - instructor/

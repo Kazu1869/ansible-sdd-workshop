@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Author"
+  short_description: "Run the spec-author SDD stage"
+  default_prompt: "Use $ansible-write-spec for the selected Ansible specification."

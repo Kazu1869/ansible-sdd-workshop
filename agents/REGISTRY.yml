@@ -1,0 +1,37 @@
+version: 1
+agents:
+  - name: spec-author
+    description: Draft measurable Ansible specifications before implementation.
+    instructions: agents/spec-author.md
+    skill: ansible-write-spec
+    access: write
+  - name: spec-reviewer
+    description: Review Ansible specs for ambiguity and testable acceptance criteria.
+    instructions: agents/spec-reviewer.md
+    skill: ansible-review-spec
+    access: review
+  - name: playbook-writer
+    description: Implement Ansible roles and playbooks from an accepted specification.
+    instructions: agents/playbook-writer.md
+    skill: ansible-write-playbook
+    access: write
+  - name: test-writer
+    description: Write requirement-driven Ansible acceptance and regression tests.
+    instructions: agents/test-writer.md
+    skill: ansible-write-tests
+    access: write
+  - name: validation-runner
+    description: Execute approved local Ansible checks and report real exit codes.
+    instructions: agents/validation-runner.md
+    skill: ansible-validate-ansible
+    access: execute
+  - name: code-reviewer
+    description: Independently review Ansible correctness, traceability and test gaps.
+    instructions: agents/code-reviewer.md
+    skill: ansible-review-code
+    access: review
+  - name: compliance-reviewer
+    description: Review Ansible changes against supplied controls and safety boundaries.
+    instructions: agents/compliance-reviewer.md
+    skill: ansible-review-compliance
+    access: review

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Writer"
+  short_description: "Run the test-writer SDD stage"
+  default_prompt: "Use $ansible-write-tests for the selected Ansible specification."

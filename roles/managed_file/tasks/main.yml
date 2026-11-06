@@ -1,0 +1,46 @@
+- name: Validate content before filesystem changes
+  ansible.builtin.assert:
+    that:
+      - managed_file_content is string
+      - managed_file_content | trim | length > 0
+    fail_msg: managed_file_content must be a nonblank string
+
+- name: Inspect output paths without following symlinks
+  ansible.builtin.stat:
+    path: "{{ role_path | dirname | dirname }}/{{ item }}"
+    follow: false
+  loop:
+    - lab-output
+    - lab-output/status.txt
+  register: managed_file_output_stats
+
+- name: Refuse output symlinks before mutation
+  ansible.builtin.assert:
+    that:
+      - not (item.stat.islnk | default(false))
+    fail_msg: Output path must not be a symlink
+  loop: "{{ managed_file_output_stats.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+
+- name: Create local output directory
+  ansible.builtin.file:
+    path: "{{ role_path | dirname | dirname }}/lab-output"
+    state: directory
+    mode: '0755'
+  when: managed_file_enabled | bool
+
+- name: Write exact example content
+  ansible.builtin.copy:
+    dest: "{{ role_path | dirname | dirname }}/lab-output/status.txt"
+    content: "{{ managed_file_content }}"
+    mode: '0644'
+  when:
+    - managed_file_enabled | bool
+    - not ansible_check_mode or managed_file_output_stats.results[0].stat.exists
+
+- name: Remove disabled example
+  ansible.builtin.file:
+    path: "{{ role_path | dirname | dirname }}/lab-output/status.txt"
+    state: absent
+  when: not (managed_file_enabled | bool)

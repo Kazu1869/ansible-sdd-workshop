@@ -1,0 +1,12 @@
+argument_specs:
+  main:
+    short_description: Manage a local demonstration file
+    options:
+      managed_file_content:
+        type: str
+        required: true
+        description: Exact nonblank string content for the local example file.
+      managed_file_enabled:
+        type: bool
+        default: true
+        description: Whether the local example file should exist.

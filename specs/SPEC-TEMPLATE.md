@@ -1,21 +1,35 @@
-# SPEC-XXX — [Outcome]
+# SPEC-NNN — Feature name
 
-**Status:** draft | **Owner:** ... | **Version:** 1.0
+Status: draft | Version: 0.1 | Owner: assign | Acceptance evidence: pending
 
-## Intent and boundary
-Who benefits, what changes, and what must never be touched?
+## Intent and authorized scope
 
-## EARS-style requirements
-- REQ-001: When ..., the automation shall ...
-- REQ-002: If ..., the automation shall reject ... before any modification.
+Describe desired outcome, target inventory/environment, files, privilege, blast radius and the user's existing authorization. Record material open decisions without assuming approval.
 
-## Public contract
-Table of role arguments: name, type, required, default, valid values; distinguish business rules not represented by the schema.
+## Public interface
 
-## Acceptance criteria and traceability
-| Requirement | Scenario | Expected outcome | Test |
+| Input | Type | Required | Runtime default | Validation |
+| --- | --- | --- | --- | --- |
+
+Keep role argument documentation and runtime defaults consistent. Never default a required input.
+
+## Behavioral requirements
+
+- REQ-001: When ..., the automation shall ... .
+- REQ-002: If validation fails, ... before any mutation.
+- REQ-003: When an identical request repeats, ... .
+
+Include enabled/disabled behavior, permissions, failure side effects, check mode and rollback where applicable. Define the expected error category for negative cases.
+
+## Traceability and acceptance
+
+| REQ | Positive / negative / idempotency / check-mode test | Expected result | Command |
 | --- | --- | --- | --- |
-| REQ-001 | ... | ... | ... |
 
-## Assumptions, failure modes, and review
-List permissions, paths, impact, rollback, explicit out-of-scope items, and a brief review checklist.
+## Policy mapping and dependencies
+
+Applicable control IDs, approved exceptions with evidence, dependency versions and supported test environment. Do not claim compliance with a standard that was not provided.
+
+## Rollback, exclusions and open questions
+
+Specify recovery behavior, what is not covered, and unanswered questions that block implementation. Readiness review and human scope acceptance are separate records.

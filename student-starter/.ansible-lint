@@ -1,8 +1,0 @@
-profile: basic
-exclude_paths:
-  - .venv/
-  - lab-output/
-  - student-starter/
-  - recovery/
-  - playbooks/invalid/
-  - instructor/

@@ -1,34 +1,21 @@
-name: Validate Ansible SDD
+name: Validate Ansible SDD template
 on:
   push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
   validate:
     runs-on: ubuntu-24.04
     steps:
-      - name: Check out repository
+      - name: Check out template
         uses: actions/checkout@v4
       - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install development tools
+      - name: Install declared development tools
         run: python -m pip install -r requirements-dev.txt
-      - name: Validate YAML
-        run: yamllint -c .yamllint .
-      - name: Validate positive playbook syntax
-        run: ansible-playbook -i localhost, -c local playbooks/valid.yml --syntax-check
-      - name: Check role documentation
-        run: ansible-doc -t role rhel_motd -r roles
-      - name: Run ansible-lint
-        run: ansible-lint roles/rhel_motd playbooks/valid.yml
-      - name: Validate role contract and behavior
-        run: bash tests/test_contract.sh
-      - name: Verify idempotency
-        run: bash tests/test_idempotency.sh
+      - name: Validate adapters, skills, Ansible and acceptance behavior
+        run: bash scripts/check.sh

@@ -1,0 +1,22 @@
+version: 1
+profile: local-development-example
+scope: Bundled localhost managed_file example only; replace for your approved project.
+controls:
+  - id: LOCAL-001
+    requirement: Execute only on localhost without become and change only lab-output/.
+    evidence: playbooks/site.yml and roles/managed_file/tasks/main.yml
+  - id: LOCAL-002
+    requirement: Keep secrets out of source, prompts, logs and evidence.
+    evidence: Inspect diff and evidence; do not print candidate secret values.
+  - id: LOCAL-003
+    requirement: Validate inputs and refuse output symlinks before mutation.
+    evidence: Role assertions and negative acceptance tests.
+  - id: LOCAL-004
+    requirement: Use FQCN idempotent modules; justify command or shell with tests if introduced.
+    evidence: Tasks, lint and repeated-run acceptance results.
+  - id: LOCAL-005
+    requirement: Declare dependencies and validate the selected versions.
+    evidence: requirements-dev.txt and actual tool version evidence.
+  - id: LOCAL-006
+    requirement: Trace requirements to tests and retain review and rollback evidence.
+    evidence: Selected spec, test names, review handoff and disabled-state tests.

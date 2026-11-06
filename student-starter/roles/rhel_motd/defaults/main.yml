@@ -1,5 +1,0 @@
-rhel_motd_environment: dev
-rhel_motd_enabled: true
-rhel_motd_mode: '0644'
-rhel_motd_path: "{{ playbook_dir | dirname }}/lab-output/motd"
-# No default for rhel_motd_text: the role contract requires it.
